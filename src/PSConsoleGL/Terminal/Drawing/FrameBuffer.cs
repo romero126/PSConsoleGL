@@ -22,7 +22,7 @@ namespace PSConsoleGL.Terminal.Drawing {
 
             this.Width = Console.WindowWidth * cellSize.Width;
             this.Height = (Console.WindowHeight-1) * cellSize.Height;
-            Buffer = new Int32[Width * Height];
+            this.Buffer = new Int32[Width * Height];
         }
 
         public void Clear(Int32 color) {
@@ -111,7 +111,7 @@ namespace PSConsoleGL.Terminal.Drawing {
         }
 
         public void DrawToScreen() {
-            var termCapability = Terminal.XTermCapabilities();
+            var termCapability = Terminal.XTermCapability();
 
             if (Array.IndexOf(termCapability, TerminalCapability.Sixel) != -1) {
                 // If the terminal supports Sixel graphics, we can draw the framebuffer

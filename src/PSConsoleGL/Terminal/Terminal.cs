@@ -40,17 +40,17 @@ namespace PSConsoleGL.Terminal {
     public enum TerminalVersion {
         // https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h3-Device-Control-functions
         // These are some example terminal identifiers we use for everything.. 
-        VT100 = 0;
-        VT220 = 1;
-        VT240 = 2;
-        VT330 = 18;
-        VT340 = 19;
-        VT320 = 24;
-        VT382 = 32;
-        VT420 = 41;
-        VT510 = 61; // Windows Terminal
-        VT520 = 64;
-        VT525 = 65;
+        VT100 = 0,
+        VT220 = 1,
+        VT240 = 2,
+        VT330 = 18,
+        VT340 = 19,
+        VT320 = 24,
+        VT382 = 32,
+        VT420 = 41,
+        VT510 = 61, // Windows Terminal
+        VT520 = 64,
+        VT525 = 65
     }
 
     public enum TerminalCapability {
@@ -213,7 +213,7 @@ namespace PSConsoleGL.Terminal {
 
         public static bool XTermCapability(TerminalCapability capability) {
             // Check if the terminal supports the given capability
-            TerminalCapability[] terminalCapabilities = XTermCapability()
+            TerminalCapability[] terminalCapabilities = XTermCapability();
             foreach (TerminalCapability item in terminalCapabilities) {
                 if (item == capability) {
                     return true;
@@ -223,17 +223,19 @@ namespace PSConsoleGL.Terminal {
         }
 
         private static string XTermVersion(string version) {
-            int offset = response.IndexOf(';');
             
+
+            //int offset = response.IndexOf(';');
+            return "";
         }
 
         public static TerminalVersion XTermVersion() {
-
+            return TerminalVersion.VT100;
         }
 
         public static void PrintXTermCapabilities() {
             // Get the terminal capabilities
-            var capabilities = XTermCapabilities();
+            var capabilities = XTermCapability();
             if (capabilities.Length == 0) {
                 Console.WriteLine("No terminal capabilities found.");
                 return;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using PSConsoleGL.Terminal.Drawing;
+
 namespace PSConsoleGL.Cmdlets
 {
     [Cmdlet(VerbsCommon.New, "Framebuffer")]
@@ -13,24 +14,30 @@ namespace PSConsoleGL.Cmdlets
         [Parameter(Mandatory = true)]
         public int Height { get; set; }
 
-        protected override void ProcessRecord()
-        {
+        private FrameBuffer frameBuffer;
 
+        //protected override void ProcessRecord()
+        protected override void EndProcessing()
+        {
             if (Width <= 0 || Height <= 0) {
                 throw new ArgumentException("Width and Height must be greater than zero.");
             }
 
             if (Width == null && Height == null) {
-                FrameBuffer frameBuffer = new FrameBuffer();
+                frameBuffer = new FrameBuffer();
                 WriteObject(frameBuffer);
                 return;
             } else if (Width == null || Height == null) {
                 throw new ArgumentNullException("Width and Height cannot be null.");
             }
 
-            FrameBuffer frameBuffer = new FrameBuffer(Width, Height);
+            frameBuffer = new FrameBuffer(Width, Height);
             WriteObject(frameBuffer);
         }
+
+        
+
+        
     }
 
     [Cmdlet(VerbsCommon.Clear, "Framebuffer", DefaultParameterSetName = "ARGB")]
