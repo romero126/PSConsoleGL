@@ -246,8 +246,6 @@ namespace PSConsoleGL.Terminal.Drawing
                 int bitmapInformationHeaderSize = br.ReadInt32();
                 fs.Seek(-4, SeekOrigin.Current);
 
-                Console.WriteLine("bitmapInformationHeaderSize: " + bitmapInformationHeaderSize);
-
                 // Check to see if we are using valid bitmap header sizes
                 if (!Enum.IsDefined(typeof(BitmapHeaderVersion), bitmapInformationHeaderSize))
                 {
