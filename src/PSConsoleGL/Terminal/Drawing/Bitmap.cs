@@ -229,6 +229,48 @@ namespace PSConsoleGL.Terminal.Drawing
                 );
             }
         }
+        
+        public void CopyToBuffer(FrameBuffer buffer, int srcX, int srcY, int srcWidth, int srcHeight, int destX, int destY, int destWidth, int destHeight)
+        {
+            // Validate source boundaries
+            if (srcX < 0 || srcY < 0 || srcX + srcWidth > Width || srcY + srcHeight > Height)
+            {
+                throw new ArgumentOutOfRangeException("Source boundaries are out of bounds.");
+            }
+
+            // Validate destination boundaries
+            if (destX < 0 || destY < 0 || destX + destWidth > buffer.Width || destY + destHeight > buffer.Height)
+            {
+                throw new ArgumentOutOfRangeException("Destination boundaries are out of bounds.");
+            }
+
+            // Scale (nearest-neighbor) and blit from source rect to destination rect
+            double scaleX = (double)srcWidth / destWidth;
+            double scaleY = (double)srcHeight / destHeight;
+
+            for (int dy = destY; dy < destHeight; dy++)
+            {
+                for (int dx = destX; dx < destWidth; dx++)
+                {
+                    int px = (int)Math.Round(scaleX * dx, 0);
+                    int py = (int)Math.Round(scaleY * dy, 0);
+
+                    int srcIndex = py * Width + px;
+                    int destIndex = dy * buffer.Width + dx; 
+
+                    var pixel = BitmapBuffer[srcIndex];
+                    buffer.SetPixel(
+                        destIndex,
+                        (int)pixel.Alpha,
+                        (int)pixel.Red,
+                        (int)pixel.Green,
+                        (int)pixel.Blue
+                    );
+
+                }
+            }
+
+        }
         public Bitmap(string filePath)
         {
             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
