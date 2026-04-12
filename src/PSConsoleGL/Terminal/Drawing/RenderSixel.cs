@@ -37,6 +37,7 @@ namespace PSConsoleGL.Terminal.Drawing
                 Int32 argb = frameBuffer.Buffer[i];
 
                 // Take ARGB and convert it to RGB32
+                int a = (argb >> 24) & 0xFF;
                 int r = (argb >> 16) & 0xFF;
                 int g = (argb >> 8) & 0xFF;
                 int b = argb & 0xFF;
@@ -65,8 +66,9 @@ namespace PSConsoleGL.Terminal.Drawing
                 int sixelPos = y % 6;
 
                 // This is a transparent pixel check
-                if (c == -16777216) {
+                if (a == 0 && c == -16777216) {
                     streamWriter.Write("#0?");
+
                     //stringBuilder.Append("#0?");
                 } else {
                     streamWriter.Write("#{0}{1}", colorMap[c], (char)(63 + Math.Pow(2, sixelPos)));
